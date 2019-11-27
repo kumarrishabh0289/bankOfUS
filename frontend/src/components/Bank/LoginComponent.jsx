@@ -45,9 +45,7 @@ class LoginComponent extends Component {
 
     }
 
-    responseGoogle = (response) => {
-        console.log(response);
-    }
+   
 
     render() {
         return (
