@@ -10,9 +10,7 @@ class FrontPage extends Component {
         }
     }
 
-    componentWillMount() {
-
-    }
+    
 
     render() {
         return (
