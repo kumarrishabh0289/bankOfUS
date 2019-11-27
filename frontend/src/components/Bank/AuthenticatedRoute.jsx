@@ -6,7 +6,8 @@ class AuthenticatedRoute extends Component {
     render() {
         if (AuthenticationForApiService.isUserLoggedIn()) {
             return <Route {...this.props} />
-        } 
+        } else {
+            return <Redirect to="/login" />
         }
 
     }
