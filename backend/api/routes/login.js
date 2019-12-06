@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 
 
 router.post("/", (req, res) => {
-	console.log("data", req.body);
+	console.log("data",req.body)
+	
 	
 	user.findOne({email: req.body.email})
 		.exec()
