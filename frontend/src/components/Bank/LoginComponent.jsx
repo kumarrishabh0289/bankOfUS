@@ -45,7 +45,9 @@ class LoginComponent extends Component {
 
     }
 
-   
+    responseGoogle = (response) => {
+        console.log(response);
+    }
 
     render() {
         return (
@@ -53,6 +55,10 @@ class LoginComponent extends Component {
                 <h1>Login</h1>
                 <div className="container">
 
+                    {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid Credentials</div>}
+                    {this.state.showSuccessMessage && <div>Login Sucessful</div>}
+
+                    User Name: <input type="text" name="username" value={this.state.username} onChange={this.handleChange} />
                     Password: <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
                     <button className="btn btn-success" onClick={this.loginClicked}>Login</button>
                 </div>
