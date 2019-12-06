@@ -24,17 +24,19 @@ router.get('/', (req, res, next) => {
 
 router.post('/register', (req, res, next) => {
 	console.log("request", req.body)
-	accno = Math.floor(Math.random() * 1000000000) + 1234567; 
+	accno = Math.floor(Math.random() * 1000000000) + 1234567;
+	routingnumber = Math.floor(Math.random() * 100000) + 123456; 
 	const user = new User({
 		_id: new mongoose.Types.ObjectId(),
 		email: req.body.email,
 		name: req.body.name,
 		password: req.body.password,
-		role: req.body.role,
 		accountnumber: accno,
 		balance: 0,
-		routingnumber: accno * 3,
-		status: "Active"
+		routingnumber: routingnumber,
+		status: "Active",
+		mobile:req.body.mobile,
+		type:req.body.type
 		
 	});
 	user

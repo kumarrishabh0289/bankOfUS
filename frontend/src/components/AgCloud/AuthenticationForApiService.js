@@ -7,18 +7,18 @@ class AuthenticationForApiService {
 
     
 
-    authenticate(email, password, role) {
+    authenticate(email, password, type) {
         return axios.post(`${API_URL}/login`, {
             email,
             password,
-            role
+            type
         })
     }
 
-    registerSuccessfulLogin(email, jwt,role,name) {
+    registerSuccessfulLogin(email, jwt,type,name) {
         sessionStorage.setItem(AUTHENTICATED_USER_SESSION, email)
         sessionStorage.setItem("jwt", jwt)
-        sessionStorage.setItem("role", role)
+        sessionStorage.setItem("type", type)
         sessionStorage.setItem("name", name)
         
         

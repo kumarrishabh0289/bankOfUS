@@ -14,7 +14,7 @@ router.post("/", (req, res) => {
 		.then(doc => {
 			console.log("From database", doc);
 			
-			if (doc.password === req.body.password && doc.role === req.body.role) {
+			if (doc.password === req.body.password && doc.type === req.body.type) {
 				res.cookie('cookie', 'cookie', {maxAge: 900000, httpOnly: false, path: '/'});
 				
 				const body = {user: doc.name};
@@ -22,7 +22,7 @@ router.post("/", (req, res) => {
 				res.status(200).json({
 					email: doc.email,
 					name: doc.name,
-					role: doc.role,
+					type: doc.type,
 					jwt: 'Bearer ' + token,
 				});
 			} else {

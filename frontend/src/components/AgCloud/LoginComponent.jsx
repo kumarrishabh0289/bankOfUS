@@ -12,7 +12,7 @@ class LoginComponent extends Component {
         this.state = {
             email: '',
             password: '',
-            role: '',
+            type: '',
             hasLoginFailed: false,
             showSuccessMessage: false
         }
@@ -43,7 +43,7 @@ class LoginComponent extends Component {
         const data = {
             email: this.state.email,
             password: this.state.password,
-            role: this.state.role
+            type: this.state.type
 
         }
         console.log("data", data)
@@ -55,7 +55,7 @@ class LoginComponent extends Component {
 
                 console.log("response", response)
                 this.setState({ showSuccessMessage: true })
-                AuthenticationForApiService.registerSuccessfulLogin(this.state.email, response.data.jwt,response.data.role,response.data.name)
+                AuthenticationForApiService.registerSuccessfulLogin(this.state.email, response.data.jwt,response.data.type,response.data.name)
                 this.props.history.push(`/sensor`)
             }).catch(() => {
                 this.setState({ showSuccessMessage: false })
@@ -106,12 +106,12 @@ class LoginComponent extends Component {
                                 <div class="col-sm-6 col-md-6">
 
                                     <div class="form-group" >
-                                        <label for="where"><h5>Role</h5></label>
-                                        <select id="role" className="form-control" name="role" value={this.state.role} onChange={this.handleChange}>
-                                            <option value="">Select Role</option>
-                                            <option value="Farmer">Admin</option>
-                                            <option value="MachineController">Enterprise</option>
-                                            <option value="ServiceCarrierStaff">Personal banking</option>
+                                        <label for="where"><h5>Account Type</h5></label>
+                                        <select id="type" className="form-control" name="type" value={this.state.type} onChange={this.handleChange}>
+                                            <option value="">Select account type</option>
+                                            <option value="Checking">Checking</option>
+                                            <option value="Savings">Savings</option>
+                                            
                                         </select>
                                     </div>
                                 </div>

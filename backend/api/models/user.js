@@ -13,7 +13,9 @@ const userSchema = mongoose.Schema({
 	accountnumber: String,
 	status: String ,
 	balance: Number,
-	routingnumber: String
+	routingnumber: String,
+	mobile: Number,
+	type: String
 });
 
 module.exports = mongoose.model('User', userSchema);

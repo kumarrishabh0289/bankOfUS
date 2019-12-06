@@ -10,9 +10,10 @@ class FrontPage extends Component {
         this.state = {
             name: "",
             password: "",
-            role: "",
+            type: "",
             email: "",
             signup_status: "",
+            mobile: "",
             hasFailed: false,
             showSuccessMessage: false
 
@@ -42,7 +43,8 @@ class FrontPage extends Component {
             email: this.state.email,
             password: this.state.password,
             name: this.state.name,
-            role: this.state.role
+            type: this.state.type,
+            mobile: this.state.mobile
 
 
         }
@@ -65,7 +67,7 @@ class FrontPage extends Component {
                     console.log(response.data.error);
                     this.setState({
 
-                        
+
                         signup_status: response.data.error,
                         hasFailed: true
                     })
@@ -88,7 +90,7 @@ class FrontPage extends Component {
                         <div className="col-sm-5 col-md-5" style={{ backgroundColor: "white", opacity: .9, filter: "Alpha(opacity=90)", borderRadius: '10px' }}>
 
                             <h1>
-                                Sign Up
+                                Sign Up to create bank account
                                 </h1>
 
                             <form onSubmit={this.submitSignUp}>
@@ -126,6 +128,23 @@ class FrontPage extends Component {
                                 </div>
                                 <div className="row" >
 
+                                    <div className="col-sm-12 col-md-12">
+
+                                        <div className="form-group">
+                                            <label htmlFor="where"><h5>Mobile Number</h5></label>
+                                            <input type="text" className="form-control" name="mobile" id="mobile" placeholder="Your mobile number" value={this.state.mobile} onChange={this.handleChange} />
+
+                                        </div>
+
+                                    </div>
+                                    <div className="col-sm-1 col-md-1">
+
+                                    </div>
+
+                                </div>
+
+                                <div className="row" >
+
                                     <div className="col-sm-6 col-md-6">
 
                                         <div className="form-group">
@@ -138,11 +157,10 @@ class FrontPage extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="where"><h5>Role</h5></label>
-                                            <select id="role" className="form-control" name="role" value={this.state.role} onChange={this.handleChange}>
-                                                <option value="">Select Role</option>
-                                                <option value="Farmer">Admin</option>
-                                                <option value="MachineController">Enterprise</option>
-                                                <option value="ServiceCarrierStaff">Personal Banking</option>
+                                            <select id="role" className="form-control" name="type" value={this.state.type} onChange={this.handleChange}>
+                                                <option value="">Account Type</option>
+                                                <option value="Checking">Checking</option>
+                                                <option value="Savings">Savings</option>
                                             </select>
                                         </div>
                                     </div>
@@ -164,8 +182,8 @@ class FrontPage extends Component {
                                     </div>
 
                                     <br />
-                                    {this.state.hasFailed && <div className="alert alert-warning">User Creation Failed Check console for More Info.</div>}
-                                    {this.state.showSuccessMessage && <div className="alert alert-warning">User Created Successfully</div>}
+                                    {this.state.hasFailed && <div className="alert alert-warning">Account Creation Failed Check console for More Info.</div>}
+                                    {this.state.showSuccessMessage && <div className="alert alert-warning">Account Created Successfully</div>}
                                     <br />
 
                                 </div>
