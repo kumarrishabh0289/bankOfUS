@@ -4,21 +4,6 @@ const mongoose = require('mongoose');
 const Announcement = require('../models/announcement');
 
 
-router.get('/', (req, res, next) => {
-    Announcement.find()
-        .exec()
-        .then(docs => {
-            console.log(docs);
-            res.status(200).json(docs);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            })
-        })
-
-});
 
 router.get('/course', (req, res, next) => {
     const course_id = req.query.course;
