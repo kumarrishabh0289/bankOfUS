@@ -9,7 +9,11 @@ const userSchema = mongoose.Schema({
 	},
 	name: String,
 	password: String,
-	role: String
+	role: String,
+	accountnumber: String,
+	status: String ,
+	balance: Number,
+	routingnumber: String
 });
 
 module.exports = mongoose.model('User', userSchema);

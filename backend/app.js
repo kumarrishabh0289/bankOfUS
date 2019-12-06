@@ -14,7 +14,7 @@ require('./api/auth/auth');
 
 mongoose.connect('mongodb+srv://openhome:' +
 	process.env.MONGO_PASSWORD +
-	'@cluster0-uqjyp.mongodb.net/test?retryWrites=true&w=majority',
+	'@cluster0-uqjyp.mongodb.net/bank?retryWrites=true&w=majority',
 	{
 		useNewUrlParser: true
 	}
