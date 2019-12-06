@@ -30,10 +30,7 @@ router.get('/email', (req, res, next) => {
     });router.get('/status', (req, res, next) => {
         const status = req.query.status;
         const course = req.query.course;
-        Enroll.find({ status: status, course_id: course })
-            .exec()
-            .then(docs => {
-                console.log(docs);
+      
                 res.status(200).json(docs);
             })
             .catch(err => {
