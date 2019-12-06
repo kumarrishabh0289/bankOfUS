@@ -19,6 +19,24 @@ router.get('/', (req, res) => {
 		})
 	
 });
+router.post('/', (req, res, next) => {
+    const announcement = new Announcement({
+        _id: new mongoose.Types.ObjectId(),
+        course_id: req.body.course_id,
+        content: req.body.content,
+        id: req.body.id,
+    });
+    announcement
+        .save()
+        .then(result => {
+            console.log(result);
+        })
+        .catch(err => console.log(err));
+    res.status(201).json({
+        message: "Handling POST  to /announcement",
+        Created: announcement
+    });
+});
 
 router.get('/email', (req, res) => {
 	const email = req.query.email;
