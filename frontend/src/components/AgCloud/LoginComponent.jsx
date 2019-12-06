@@ -111,6 +111,7 @@ class LoginComponent extends Component {
                                             <option value="">Select account type</option>
                                             <option value="Checking">Checking</option>
                                             <option value="Savings">Savings</option>
+                                            <option value="Admin">Admin</option>
                                             
                                         </select>
                                     </div>

@@ -55,8 +55,8 @@ router.post('/register', (req, res, next) => {
 });
 
 
-router.get('/:userId', (req, res, next) => {
-	const email = req.params.userId;
+router.get('/email', (req, res, next) => {
+	const email = req.query.email;
 	User.findOne({email: email})
 		.exec()
 		.then(doc => {
@@ -73,5 +73,20 @@ router.get('/:userId', (req, res, next) => {
 			res.status(500).json({error: err});
 		})
 });
+
+router.put("/delete", (req, res, next) => {
+
+    User.remove({ email:req.body.email })
+        .exec()
+        .then(result => {
+            res.status(200).json({ message: "Deleted Successfully" });
+
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({error:err});
+        })
+	
+})
 
 module.exports = router;

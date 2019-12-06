@@ -11,7 +11,7 @@ class HeaderComponent extends Component {
         return (
             <header>
                 <nav className="navbar navbar-expand-md bg-light navbar-light ">
-                    <div><img src="logo.png" height="40" width="55"></img> <a href="/" className="navbar-brand">Ag Machine Cloud</a></div>
+                    <div><img src="logo.png" height="40" width="55"></img> <a href="/" className="navbar-brand">Bank of USA</a></div>
                     <ul className="navbar-nav">
                         {isUserLoggedIn && <li><Link className="nav-link" to="/welcome/AGMachineCloud">Home</Link></li>}
                         
