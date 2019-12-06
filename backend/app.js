@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const userRoutes = require('./api/routes/user');
 const loginRoutes = require('./api/routes/login');
+const transactionRoutes = require('./api/routes/transaction');
+
 let passport = require("passport");
 const passportJWT = require("passport-jwt");
 
@@ -27,7 +29,6 @@ app.use(bodyParser.json());
 //use cors to allow cross origin resource sharing
 app.use(cors({origin: 'http://localhost:3000', credentials: true}));
 
-
 app.use(passport.initialize());
 
 
@@ -42,7 +43,7 @@ app.post("/secret", passport.authenticate('jwt', {session: false}, null), functi
 });
 
 app.use('/user', userRoutes);
-
+app.use('/transaction', transactionRoutes);
 
 app.use('/login', loginRoutes);
 
