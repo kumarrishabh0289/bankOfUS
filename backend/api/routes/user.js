@@ -90,7 +90,7 @@ router.put("/delete", (req, res, next) => {
 })
 
 router.patch("/updatebalance", (req, res) => {
-    const accountnumber = req.body.accountnumber;// the amount to be refunded
+    const accountnumber = req.body.accountnumber;// the amount to be added
 	let amount = req.body.amount;
     User.findOne({accountnumber: accountnumber})
         .exec()
@@ -123,6 +123,33 @@ router.patch("/updatebalance", (req, res) => {
             res.status(500).json({error:err});
         })
         
+});
+
+
+router.get('/check', (req, res, next) => {
+	const accountnumber = req.query.accountnumber;
+	const amount = req.query.amount;
+	console.log("accountnumber", accountnumber, amount)
+	User.findOne({accountnumber: accountnumber})
+		.exec()
+		.then(doc => {
+			console.log("From database", doc);
+			if (doc) {
+                if (doc.balance - req.query.amount < 0)
+                {
+                    res.status(403).json({message: "Negative balance not possible"}); //invalid
+                }
+                else{
+                    res.status(200).json({message: "Possible to transact" });
+                }
+			} else {
+				res.status(404).json({message: "not a valid ID"});
+			}		
+		})
+		.catch(err => {
+			console.log(err);
+			res.status(500).json({error: err});
+		})
 });
 
 module.exports = router;
