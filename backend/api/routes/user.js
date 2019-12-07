@@ -30,7 +30,7 @@ router.post('/register', (req, res, next) => {
 		name: req.body.name,
 		password: req.body.password,
 		accountnumber: accno,
-		balance: 0,
+		balance: 100,
 		routingnumber: routingnumber,
 		status: "Active",
 		mobile:req.body.mobile,
