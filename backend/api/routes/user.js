@@ -131,10 +131,10 @@ router.get('/check', (req, res, next) => {
 	User.findOne({accountnumber: receiver})
 	.exec()
 	.then(doc => {
-		console.log("From database", doc);
+		console.log("From the database", doc);
 		if (doc) {
 		} else {
-			res.status(404).json({message: "not a valid receiver ID"});
+			res.status(404).json({message: "Not a valid receiver ID"});
 			
 		}		
 	})
@@ -157,7 +157,7 @@ router.get('/check', (req, res, next) => {
                     res.status(200).json({message: "Possible to transact" });
                 }
 			} else {
-				res.status(403).json({message: "not a valid sender ID"});
+				res.status(403).json({message: "Not a valid sender ID"});
 			}		
 		})
 		.catch(err => {

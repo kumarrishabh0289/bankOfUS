@@ -17,7 +17,7 @@ router.get('/getall', (req, res, next) => {
 			if (docs) {
 				res.status(200).json(docs);
 			} else {
-				res.status(404).json({message: "not a valid accountnumber"});
+				res.status(404).json({message: "Not a valid accountnumber"});
 			}
 			
 		})
