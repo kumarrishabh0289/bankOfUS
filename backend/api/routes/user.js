@@ -127,23 +127,40 @@ router.patch("/updatebalance", (req, res) => {
 
 
 router.get('/check', (req, res, next) => {
-	const accountnumber = req.query.accountnumber;
+	
+	const sender = req.query.sender;
 	const amount = req.query.amount;
-	console.log("accountnumber", accountnumber, amount)
-	User.findOne({accountnumber: accountnumber})
+	const  receiver = req.query.receiver;
+	User.findOne({accountnumber: receiver})
+	.exec()
+	.then(doc => {
+		console.log("From database", doc);
+		if (doc) {
+		} else {
+			res.status(404).json({message: "not a valid receiver ID"});
+			
+		}		
+	})
+	.catch(err => {
+		console.log(err);
+		res.status(500).json({error: err});
+	})
+
+	User.findOne({accountnumber: sender})
 		.exec()
-		.then(doc => {
-			console.log("From database", doc);
-			if (doc) {
-                if (doc.balance - req.query.amount < 0)
+		.then(doc1 => {
+			console.log("From database", doc1);
+			if (doc1) {
+                if (doc1.balance - req.query.amount < 0)
                 {
                     res.status(403).json({message: "Negative balance not possible"}); //invalid
                 }
                 else{
+					console.log("-------------", doc1.balance - req.query.amount)
                     res.status(200).json({message: "Possible to transact" });
                 }
 			} else {
-				res.status(404).json({message: "not a valid ID"});
+				res.status(403).json({message: "not a valid sender ID"});
 			}		
 		})
 		.catch(err => {

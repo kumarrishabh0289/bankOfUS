@@ -24,15 +24,20 @@ class TransactionComponent extends Component {
             frequency: "",
 
             hasFailed: false,
-            showSuccessMessage: false
+            showSuccessMessage: false,
+            hasInsufficientBal: false,
+            hasInsufficientBalMessage: ""
         }
         this.submitSignUp = this.submitSignUp.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        
 
     }
+
+
     submitSignUp = (e) => {
 
-
+        console.log("signup")
         e.preventDefault();
         const data = {
             sendername: sessionStorage.name,
@@ -49,28 +54,25 @@ class TransactionComponent extends Component {
             enddate: this.state.enddate,
             frequency: this.state.frequency
         }
-        console.log("data is", data)
 
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post(API_URL + '/transaction/new', data)
-            .then((response) => {
-                console.log("Status Code : ", response.status);
-                if (response.status === 200) {
+        
 
-                    console.log(response.data);
-                    this.setState({
+        axios.get(API_URL + `/user/check?sender=${sessionStorage.accountnumber}&amount=${this.state.amount}&receiver=${this.state.receiver}`)
+        .then((response) => {
+            axios.get(API_URL + '/transaction/updatesenderbalance?sender=' + sessionStorage.accountnumber + '&amount=' + this.state.amount)
+            axios.get(API_URL + '/transaction/updatereceiverbalance?receiver=' + this.state.receiver + '&amount=' + this.state.amount)
+            axios.post(API_URL + '/transaction/new', data) 
+            this.setState({ showSuccessMessage: true })
+            this.setState({ hasInsufficientBal: false })
+            
+        }
+        )
+        .catch((err) => {
+            this.setState({ hasInsufficientBal: true })
+            this.setState({ hasInsufficientBalMessage: err.message })
+        })
+        
 
-                        showSuccessMessage: true
-                    })
-                } else {
-                    console.log(response.data.error);
-                    this.setState({
-
-                        hasFailed: true
-                    })
-                }
-            });
     }
 
 
@@ -83,12 +85,12 @@ class TransactionComponent extends Component {
     render() {
         return (
             <div>
-                <br/>
-                <br/>
-            <div class="container" style={{ backgroundColor: "white", opacity: .9, filter: "Alpha(opacity=90)", borderRadius: '10px' }}>
-                       
-                           
-                           
+                <br />
+                <br />
+                <div class="container" style={{ backgroundColor: "white", opacity: .9, filter: "Alpha(opacity=90)", borderRadius: '10px' }}>
+
+
+
 
                     <h4>
                         Transfer Money
@@ -160,7 +162,7 @@ class TransactionComponent extends Component {
                                     <select id="transactiontype" className="form-control" name="transactiontype" value={this.state.transactiontype} onChange={this.handleChange}>
                                         <option value="">Transaction Type</option>
                                         <option value="Recurring">Recurring</option>
-                                        <option value="Onetime">One time</option>
+                                        <option value="One-time">One time</option>
                                     </select>
                                 </div>
 
@@ -181,26 +183,26 @@ class TransactionComponent extends Component {
 
                         </div>
                         {this.state.external && (
-                        <div className="row" >
+                            <div className="row" >
 
-                            <div className="col-sm-12 col-md-12">
+                                <div className="col-sm-12 col-md-12">
 
-                                <div className="form-group">
-                                    <label htmlFor="where"><h6>Receiver Bank Name</h6></label>
-                                    <input type="text" className="form-control" name="bankname" id="bankname" placeholder="Receiver Bank Name" value={this.state.bankname} onChange={this.handleChange} />
+                                    <div className="form-group">
+                                        <label htmlFor="where"><h6>Receiver Bank Name</h6></label>
+                                        <input type="text" className="form-control" name="bankname" id="bankname" placeholder="Receiver Bank Name" value={this.state.bankname} onChange={this.handleChange} />
+
+                                    </div>
 
                                 </div>
 
                             </div>
-
-                        </div>
                         )}
 
 
 
 
 
-                        {this.state.transactiontype=="Recurring" && (<div className="row" >
+                        {this.state.transactiontype == "Recurring" && (<div className="row" >
 
                             <div className="col-sm-12 col-md-12">
 
@@ -213,7 +215,7 @@ class TransactionComponent extends Component {
                             </div>
 
                         </div>)}
-                        {this.state.transactiontype=="Recurring" && (<div className="row" >
+                        {this.state.transactiontype == "Recurring" && (<div className="row" >
 
                             <div className="col-sm-12 col-md-12">
 
@@ -227,7 +229,7 @@ class TransactionComponent extends Component {
 
                         </div>)}
 
-                        {this.state.transactiontype=="Recurring" && (<div className="row" >
+                        {this.state.transactiontype == "Recurring" && (<div className="row" >
 
                             <div className="col-sm-12 col-md-12">
 
@@ -260,8 +262,9 @@ class TransactionComponent extends Component {
                                 </div>
 
                                 <br />
-                                {this.state.hasFailed && <div className="alert alert-warning">Transaction Failed</div>}
+                                {this.state.hasInsufficientBal && <div className="alert alert-warning">Transaction failed</div>}
                                 {this.state.showSuccessMessage && <div className="alert alert-warning">Transaction Successful</div>}
+                                {this.state.hasFailed && <div className="alert alert-warning">Transaction failed</div>}
                                 <br />
 
                             </div>
