@@ -70,7 +70,10 @@ router.post('/new', (req, res, next) => {
 	    external: req.body.external,
         routingnumbersender: req.body.routingnumbersender,
         routingnumbereceiver: req.body.routingnumbereceiver,
-        bankname: req.body.bankname
+		bankname: req.body.bankname,
+		startdate:req.body.startdate,
+		enddate:req.body.enddate,
+		frequency:req.body.frequency
 	});
 	user
 		.save()

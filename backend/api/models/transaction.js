@@ -12,7 +12,11 @@ const transactionSchema = mongoose.Schema({
     external: String,
     routingnumbersender: String,
     routingnumbereceiver: String,
-    bankname:String //applicable when the receiver is external
+    bankname:String, //applicable when the receiver is external
+    startdate:Date,
+    enddate:Date,
+    frequency:String
+
 });
 
 module.exports = mongoose.model('Transaction', transactionSchema);
