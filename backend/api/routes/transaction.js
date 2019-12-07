@@ -10,13 +10,13 @@ router.get('/getall', (req, res, next) => {
     console.log("passed",req.query)
     var t = []
 	const accountnumber = req.query.accountnumber;
-	Transaction.find({$or: [{receiver: accountnumber}, {sender: accountnumber}]})
+	Transaction.find({$or: [{receiver: accountnumber},{sender: accountnumber}]})
 		.exec()
-		.then(doc => {
-			console.log("From database", doc);
-			if (doc) {
-                res.status(200).json(doc);
-
+		.then(docs => {
+            console.log(docs);
+		
+			if (docs) {
+				res.status(200).json(docs);
 			} else {
 				res.status(404).json({message: "not a valid accountnumber"});
 			}
@@ -24,8 +24,11 @@ router.get('/getall', (req, res, next) => {
 		})
 		.catch(err => {
 			console.log(err);
-			res.status(500).json({error: err});
+			res.status(500).json({
+				error: err
+			})
 		})
+			
 });
 
 router.get('/', (req, res, next) => {
@@ -53,7 +56,7 @@ router.post('/new', (req, res, next) => {
 		sender: req.body.sender.trim(),
         receiver: req.body.receiver.trim(),
         amount: req.body.amount,
-        type: req.body.type, //recurring or one time
+        type: req.body.transactiontype, //recurring or one time
         date: Date.now(),
 	    external: req.body.external,
         routingnumbersender: req.body.routingnumbersender,
@@ -78,6 +81,7 @@ router.post('/new', (req, res, next) => {
         
      
 });
+
 
 router.get("/updatesenderbalance", (req, res) => { 
 //now deduct money from sender

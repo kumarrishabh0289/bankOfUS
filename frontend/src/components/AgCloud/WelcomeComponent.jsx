@@ -47,6 +47,12 @@ class WelcomeComponent extends Component {
             })
 
     }
+    viewTransaction=(e)=>{
+        var headers = new Headers();
+        
+        e.preventDefault();
+        this.props.history.push(`/usertransaction`);
+    }
     componentDidMount() {
         let email = sessionStorage.authenticatedUser;
         axios.get(API_URL + '/user/email?email='+ email)
@@ -104,6 +110,9 @@ class WelcomeComponent extends Component {
                                             <th>
 
                                             </th>
+                                            <th>
+
+                                            </th>
 
                                         </tr>
                                         {
@@ -121,7 +130,8 @@ class WelcomeComponent extends Component {
                                                             <td>{user.routingnumber}</td>
                                                             <td>{user.type}</td>
                                                             <td>{user.balance}</td>
-                                                            <td> <button onClick={this.deleteClicked} class="btn btn-primary">Delete Account</button></td>                                                            
+                                                            <td> <button onClick={this.deleteClicked} class="btn btn-primary">Delete Account</button></td> 
+                                                            <td> <button onClick={this.viewTransaction} class="btn btn-primary">View Transaction</button></td>                                                         
                                                         </tr>
                                                     </>
                                                 )
