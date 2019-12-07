@@ -124,7 +124,7 @@ router.get("/updatereceiverbalance", (req, res) => {
         console.log("update to", result1.balance + req.query.amount )
         User.update({accountnumber: req.query.receiver}, {
             $set: {
-                balance: result1.balance + req.query.amount ,
+                balance: parseFloat(result1.balance) + parseFloat(req.query.amount) ,
             }
         })
         .exec()
