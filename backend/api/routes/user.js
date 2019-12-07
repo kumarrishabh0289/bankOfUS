@@ -64,7 +64,7 @@ router.get('/email', (req, res, next) => {
 			if (doc) {
 				res.status(200).json(doc);
 			} else {
-				res.status(404).json({message: "not a valid ID"});
+				res.status(404).json({message: "Not a valid ID"});
 			}
 			
 		})

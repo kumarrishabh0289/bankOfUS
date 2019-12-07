@@ -69,7 +69,7 @@ router.post('/new', (req, res, next) => {
 		.save()
 		.then(result => {
 			console.log(result);
-          	res.status(200).json({message: "transaction Created"});
+          	res.status(200).json({message: "Transaction Created"});
           
 		})
 		.catch(err => {
