@@ -56,7 +56,13 @@ class LoginComponent extends Component {
                 console.log("response", response)
                 this.setState({ showSuccessMessage: true })
                 AuthenticationForApiService.registerSuccessfulLogin(this.state.email, response.data.jwt,response.data.type,response.data.name)
-                this.props.history.push(`/sensor`)
+                if(sessionStorage.type == "Admin"){
+                    this.props.history.push(`/admindashboard`)
+                }
+              else{
+                this.props.history.push(`/dashboard`)
+              }
+               
             }).catch(() => {
                 this.setState({ showSuccessMessage: false })
                 this.setState({ hasLoginFailed: true })

@@ -7,6 +7,7 @@ import HeaderComponent from './HeaderComponent.jsx'
 import FooterComponent from './FooterComponent'
 import LogoutComponent from './LogoutComponent.jsx'
 import WelcomeComponent from './WelcomeComponent.jsx'
+import AdminDashboard from './AdminDashboard.jsx'
 import FrontPage from './FrontPage.jsx'
 
 class AgCloud extends Component {
@@ -20,7 +21,8 @@ class AgCloud extends Component {
                             <Route path="/" exact component={FrontPage}/>
                             <Route path="/login" component={LoginComponent}/>
                             <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent}/>
-                            <AuthenticatedRoute path="/sensor" component={WelcomeComponent}/>
+                            <AuthenticatedRoute path="/dashboard" component={WelcomeComponent}/>
+                            <AuthenticatedRoute path="/admindashboard" component={AdminDashboard}/>
         
                             <AuthenticatedRoute path="/logout" component={LogoutComponent}/>
                             
