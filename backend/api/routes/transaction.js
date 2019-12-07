@@ -10,30 +10,18 @@ router.get('/getall', (req, res, next) => {
     console.log("passed",req.query)
     var t = []
 	const accountnumber = req.query.accountnumber;
-	Transaction.find({receiver: accountnumber})
+	Transaction.find({$or: [{receiver: accountnumber}, {sender: accountnumber}]})
 		.exec()
 		.then(doc => {
 			console.log("From database", doc);
 			if (doc) {
-				t = doc
+                res.status(200).json(doc);
+
 			} else {
 				res.status(404).json({message: "not a valid accountnumber"});
 			}
 			
-		}).then(
-            Transaction.find({sender: accountnumber})
-            .exec()
-		.then(docs => {
-            console.log(docs);
-			res.status(200).json(t.concat(docs));
 		})
-		.catch(err => {
-			console.log(err);
-			res.status(500).json({
-				error: err
-			})
-		})
-		)
 		.catch(err => {
 			console.log(err);
 			res.status(500).json({error: err});
@@ -62,8 +50,8 @@ router.post('/new', (req, res, next) => {
         _id: new mongoose.Types.ObjectId(),
         sendername: req.body.sendername,
         receivername: req.body.receivername,
-		sender: req.body.sender,
-        receiver: req.body.receiver,
+		sender: req.body.sender.trim(),
+        receiver: req.body.receiver.trim(),
         amount: req.body.amount,
         type: req.body.type, //recurring or one time
         date: Date.now(),
@@ -176,9 +164,14 @@ router.patch("/refundfee", (req, res) => {
             console.log( "Deleted transaction Successfully" );
         })
         .then( //now refund the amount
+
+            User.findOne({accountnumber: accountnumber})
+            .exec()
+            .then(doc1 => {
+                
             User.update({accountnumber: accountnumber}, {
                 $set: {
-                    balance: req.body.balance,
+                    balance: doc1.balance + req.body.balance,
                 }
             })
             .exec()
@@ -194,6 +187,8 @@ router.patch("/refundfee", (req, res) => {
                     error: err
                 });
             })
+            })
+
         )
         .catch(err => {
             console.log(err);
