@@ -160,7 +160,7 @@ router.get('/check', (req, res, next) => {
                     res.status(200).json({message: "Possible to transact" });
                 }
 			} else {
-				res.status(404).json({message: "not a valid sender ID"});
+				res.status(403).json({message: "not a valid sender ID"});
 			}		
 		})
 		.catch(err => {

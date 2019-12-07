@@ -25,55 +25,15 @@ class TransactionComponent extends Component {
 
             hasFailed: false,
             showSuccessMessage: false,
-            hasInsufficientBal:false
+            hasInsufficientBal: false,
+            hasInsufficientBalMessage: ""
         }
         this.submitSignUp = this.submitSignUp.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.submitSign1Up = this.submitSign1Up.bind(this);
+        
 
     }
-    submitSign1Up = (e) => {
 
-        console.log("signup1")
-        e.preventDefault();
-        const data = {
-            sendername: sessionStorage.name,
-            receivername: this.state.receivername,
-            sender: sessionStorage.accountnumber,
-            receiver: this.state.receiver,
-            amount: this.state.amount,
-            external: this.state.external,
-            transactiontype: this.state.transactiontype,
-            routingnumbersender: sessionStorage.routingnumber,
-            routingnumberreceiver: this.state.routingnumberreceiver,
-            bankname: this.state.bankname,
-            startdate: this.state.startdate,
-            enddate: this.state.enddate,
-            frequency: this.state.frequency
-        }
-        console.log("data is", data)
-
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post(API_URL + '/transaction/new', data)
-            .then((response) => {
-                console.log("Status Code : ", response.status);
-                if (response.status === 200) {
-
-                    console.log(response.data);
-                    this.setState({
-
-                        showSuccessMessage: true
-                    })
-                } else {
-                    console.log(response.data.error);
-                    this.setState({
-
-                        hasFailed: true
-                    })
-                }
-            });
-    }
 
     submitSignUp = (e) => {
 
@@ -94,41 +54,26 @@ class TransactionComponent extends Component {
             enddate: this.state.enddate,
             frequency: this.state.frequency
         }
-        console.log("data is", data)
 
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.get(API_URL + '/user/check?accountnumber='+sessionStorage.accountnumber+'&amount='+this.state.amount)
-            .then((response) => {
-                console.log("Status Code : ", response.status);
-                
+        
 
-                    console.log(response.data);
-                    axios.post(API_URL + '/transaction/new', data)
-                    .then((response) => {
-                        console.log("Status Code : ", response.status);
-                        if (response.status === 200) {
+        axios.get(API_URL + `/user/check?sender=${sessionStorage.accountnumber}&amount=${this.state.amount}&receiver=${this.state.receiver}`)
+        .then((response) => {
+            axios.get(API_URL + '/transaction/updatesenderbalance?sender=' + sessionStorage.accountnumber + '&amount=' + this.state.amount)
+            axios.get(API_URL + '/transaction/updatereceiverbalance?receiver=' + this.state.receiver + '&amount=' + this.state.amount)
+            axios.post(API_URL + '/transaction/new', data) 
+            this.setState({ showSuccessMessage: true })
+            this.setState({ hasInsufficientBal: false })
+            
+        }
+        )
+        .catch((err) => {
+            this.setState({ hasInsufficientBal: true })
+            this.setState({ hasInsufficientBalMessage: err.message })
+        })
         
-                            console.log(response.data);
-                            this.setState({
-        
-                                showSuccessMessage: true
-                            })
-                        } else {
-                            console.log(response.data.error);
-                            this.setState({
-        
-                                hasFailed: true
-                            })
-                        }
-                    });
-                
-            })
-            .catch(() => {
-                this.setState({ hasInsufficientBal: true })
-            })
+
     }
-
 
 
     handleChange = (event) => {
@@ -140,12 +85,12 @@ class TransactionComponent extends Component {
     render() {
         return (
             <div>
-                <br/>
-                <br/>
-            <div class="container" style={{ backgroundColor: "white", opacity: .9, filter: "Alpha(opacity=90)", borderRadius: '10px' }}>
-                       
-                           
-                           
+                <br />
+                <br />
+                <div class="container" style={{ backgroundColor: "white", opacity: .9, filter: "Alpha(opacity=90)", borderRadius: '10px' }}>
+
+
+
 
                     <h4>
                         Transfer Money
@@ -238,26 +183,26 @@ class TransactionComponent extends Component {
 
                         </div>
                         {this.state.external && (
-                        <div className="row" >
+                            <div className="row" >
 
-                            <div className="col-sm-12 col-md-12">
+                                <div className="col-sm-12 col-md-12">
 
-                                <div className="form-group">
-                                    <label htmlFor="where"><h6>Receiver Bank Name</h6></label>
-                                    <input type="text" className="form-control" name="bankname" id="bankname" placeholder="Receiver Bank Name" value={this.state.bankname} onChange={this.handleChange} />
+                                    <div className="form-group">
+                                        <label htmlFor="where"><h6>Receiver Bank Name</h6></label>
+                                        <input type="text" className="form-control" name="bankname" id="bankname" placeholder="Receiver Bank Name" value={this.state.bankname} onChange={this.handleChange} />
+
+                                    </div>
 
                                 </div>
 
                             </div>
-
-                        </div>
                         )}
 
 
 
 
 
-                        {this.state.transactiontype=="Recurring" && (<div className="row" >
+                        {this.state.transactiontype == "Recurring" && (<div className="row" >
 
                             <div className="col-sm-12 col-md-12">
 
@@ -270,7 +215,7 @@ class TransactionComponent extends Component {
                             </div>
 
                         </div>)}
-                        {this.state.transactiontype=="Recurring" && (<div className="row" >
+                        {this.state.transactiontype == "Recurring" && (<div className="row" >
 
                             <div className="col-sm-12 col-md-12">
 
@@ -284,7 +229,7 @@ class TransactionComponent extends Component {
 
                         </div>)}
 
-                        {this.state.transactiontype=="Recurring" && (<div className="row" >
+                        {this.state.transactiontype == "Recurring" && (<div className="row" >
 
                             <div className="col-sm-12 col-md-12">
 
@@ -317,7 +262,7 @@ class TransactionComponent extends Component {
                                 </div>
 
                                 <br />
-                                {this.state.hasInsufficientBal && <div className="alert alert-warning">Transaction Failed due to insufficient balance</div>}
+                                {this.state.hasInsufficientBal && <div className="alert alert-warning">Transaction failed</div>}
                                 {this.state.showSuccessMessage && <div className="alert alert-warning">Transaction Successful</div>}
                                 {this.state.hasFailed && <div className="alert alert-warning">Transaction failed</div>}
                                 <br />
