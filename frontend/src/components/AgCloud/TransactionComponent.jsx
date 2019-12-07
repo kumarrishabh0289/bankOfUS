@@ -163,6 +163,7 @@ class TransactionComponent extends Component {
                                         <option value="">Transaction Type</option>
                                         <option value="Recurring">Recurring</option>
                                         <option value="One-time">One time</option>
+                                        <option value="Fee">Fee</option>
                                     </select>
                                 </div>
 
