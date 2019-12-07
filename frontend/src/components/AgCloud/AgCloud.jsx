@@ -4,7 +4,6 @@ import AuthenticatedRoute from './AuthenticatedRoute.jsx'
 import LoginComponent from './LoginComponent.jsx'
 import ErrorComponent from './ErrorComponent.jsx'
 import HeaderComponent from './HeaderComponent.jsx'
-import FooterComponent from './FooterComponent'
 import LogoutComponent from './LogoutComponent.jsx'
 import WelcomeComponent from './WelcomeComponent.jsx'
 import AdminDashboard from './AdminDashboard.jsx'
@@ -31,7 +30,7 @@ class AgCloud extends Component {
                             <Route component={ErrorComponent}/>
                             
                         </Switch>
-                        <FooterComponent/>
+                       
                     </>
                 </Router>
                
