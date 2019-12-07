@@ -9,6 +9,7 @@ import WelcomeComponent from './WelcomeComponent.jsx'
 import AdminDashboard from './AdminDashboard.jsx'
 import TransactionComponent from './TransactionComponent.jsx'
 import FrontPage from './FrontPage.jsx'
+import UserTransaction from './UserTransaction.jsx'
 
 class AgCloud extends Component {
     render() {
@@ -24,7 +25,7 @@ class AgCloud extends Component {
                             <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent}/>
                             <AuthenticatedRoute path="/dashboard" component={WelcomeComponent}/>
                             <AuthenticatedRoute path="/admindashboard" component={AdminDashboard}/>
-        
+                            <AuthenticatedRoute path="/usertransaction" component={UserTransaction}/>
                             <AuthenticatedRoute path="/logout" component={LogoutComponent}/>
                             
                             <Route component={ErrorComponent}/>

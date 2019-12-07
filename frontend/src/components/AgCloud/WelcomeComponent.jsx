@@ -51,7 +51,7 @@ class WelcomeComponent extends Component {
         var headers = new Headers();
         
         e.preventDefault();
-        this.props.history.push(`/hostdashboard/${sessionStorage.accountnumber}`);
+        this.props.history.push(`/usertransaction`);
     }
     componentDidMount() {
         let email = sessionStorage.authenticatedUser;
