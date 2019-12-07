@@ -139,8 +139,13 @@ class TransactionComponent extends Component {
 
     render() {
         return (
-            <div className="container">
-                <div>
+            <div>
+                <br/>
+                <br/>
+            <div class="container" style={{ backgroundColor: "white", opacity: .9, filter: "Alpha(opacity=90)", borderRadius: '10px' }}>
+                       
+                           
+                           
 
                     <h4>
                         Transfer Money
@@ -156,7 +161,6 @@ class TransactionComponent extends Component {
                                     <input type="text" className="form-control" name="receivername" id="receivername" placeholder="Receiver Name" value={this.state.receivername} onChange={this.handleChange} />
 
                                 </div>
-
                             </div>
 
                         </div>
