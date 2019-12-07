@@ -52,6 +52,32 @@ class AdminDashboard extends Component {
             })
 
     }
+    feeRefund = (e,trans) => {
+
+        console.log("fee Data")
+        
+
+        e.preventDefault();
+
+        axios.defaults.withCredentials = true;
+
+        axios.patch(API_URL + `/transaction/refundfee`,{
+    	"mongoid": trans._id,
+        "accountnumber": trans.sender,
+        "balance": trans.amount
+            })
+            .then((response) => {
+
+                console.log("response", response)
+                this.setState({ msg: response.data.message })
+
+
+            }).catch(() => {
+                this.setState({ success: false })
+
+            })
+
+    }
     componentDidMount() {
         // let email = sessionStorage.authenticatedUser;
         // axios.get(API_URL + '/user/email?email='+ email)
@@ -126,6 +152,9 @@ class AdminDashboard extends Component {
                             <div class="col-sm-12 col-md-12">
                                 <table className="table">
                                     <tr>
+                                    <th>
+                                            Transaction Date
+                                            </th>
                                         <th>
                                             Sender Name
                                             </th>
@@ -147,12 +176,13 @@ class AdminDashboard extends Component {
                                         <th>
                                             Transaction Amount
                                             </th>
+                                            <th>
+                                            Credit / Debit
+                                            </th>
                                         <th>
                                             Transaction Type
                                             </th>
-                                        <th>
-                                            Transaction Date
-                                            </th>
+                                    
                                         <th>
                                             External Transaction
                                         </th>
@@ -166,11 +196,20 @@ class AdminDashboard extends Component {
                                     </tr>
                                     {
                                         this.state.user.map(user => {
-                                            var status_text = ""
-                                            var color = ""
+                                            let dis =""
+                                            let s = "DR"
+                                            if(user.type!=="Fee"){
+                                               dis = 'none'
+
+                                            }
+                                            if(this.state.accountnumber === user.sender){
+                                                s = "CR"
+                                            }
+                                           
                                             return (
                                                 <>
                                                     <tr>
+                                                    <td>{user.date}</td>
                                                         <td>{user.sendername}</td>
                                                         <td>{user.receivername}</td>
                                                         <td>{user.sender}</td>
@@ -178,11 +217,12 @@ class AdminDashboard extends Component {
                                                         <td>{user.receiver}</td>
                                                         <td>{user.routingnumbereceiver}</td>
                                                         <td>{user.amount}</td>
-                                                        <td>{user.type}</td>
-                                                        <td>{user.date}</td>
+                                                        <td>{s}</td>
+                                                        <td>{user.type} <button style={{display:dis}} onClick={(event)=>this.feeRefund(event,user)} class="btn btn-primary">Refund Fee</button></td>
+                                                      
                                                         <td>{user.external}</td>
                                                         <td>{user.bankname}</td>
-                                                        <td> <button onClick={this.deleteClicked} class="btn btn-primary">Delete Account</button></td>
+                                                        <td> </td>
                                                     </tr>
                                                 </>
                                             )

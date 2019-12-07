@@ -10,22 +10,17 @@ router.get('/getall', (req, res, next) => {
     console.log("passed",req.query)
     var t = []
 	const accountnumber = req.query.accountnumber;
-	Transaction.find({receiver: accountnumber})
+	Transaction.find({$or: [{receiver: accountnumber},{sender: accountnumber}]})
 		.exec()
-		.then(doc => {
-			console.log("From database", doc);
-			if (doc) {
-				t = doc
+		.then(docs => {
+            console.log(docs);
+		
+			if (docs) {
+				res.status(200).json(docs);
 			} else {
 				res.status(404).json({message: "not a valid accountnumber"});
 			}
 			
-		}).then(
-            Transaction.find({sender: accountnumber})
-            .exec()
-		.then(docs => {
-            console.log(docs);
-			res.status(200).json(t.concat(docs));
 		})
 		.catch(err => {
 			console.log(err);
@@ -33,11 +28,7 @@ router.get('/getall', (req, res, next) => {
 				error: err
 			})
 		})
-		)
-		.catch(err => {
-			console.log(err);
-			res.status(500).json({error: err});
-		})
+			
 });
 
 router.get('/', (req, res, next) => {
