@@ -3,7 +3,6 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Transaction = require('../models/transaction');
 const User = require('../models/user');
-var jwt = require('jsonwebtoken');
 
 
 router.get('/getall', (req, res, next) => {
