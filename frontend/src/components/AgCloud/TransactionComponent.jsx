@@ -139,7 +139,7 @@ class TransactionComponent extends Component {
                             <div className="col-sm-12 col-md-12">
 
                                 <div className="form-group">
-                                    <label htmlFor="where"><h5>External</h5></label>
+                                    <label htmlFor="where"><h6>External</h6></label>
                                     <select id="external" className="form-control" name="external" value={this.state.external} onChange={this.handleChange}>
                                         <option value="">Payee</option>
                                         <option value={true}>External</option>
@@ -156,7 +156,7 @@ class TransactionComponent extends Component {
                             <div className="col-sm-12 col-md-12">
 
                                 <div className="form-group">
-                                    <label htmlFor="where"><h5>Transaction Type</h5></label>
+                                    <label htmlFor="where"><h6>Transaction Type</h6></label>
                                     <select id="transactiontype" className="form-control" name="transactiontype" value={this.state.transactiontype} onChange={this.handleChange}>
                                         <option value="">Transaction Type</option>
                                         <option value="Recurring">Recurring</option>
@@ -180,6 +180,7 @@ class TransactionComponent extends Component {
                             </div>
 
                         </div>
+                        {this.state.external && (
                         <div className="row" >
 
                             <div className="col-sm-12 col-md-12">
@@ -193,12 +194,13 @@ class TransactionComponent extends Component {
                             </div>
 
                         </div>
+                        )}
 
 
 
 
 
-                        <div className="row" >
+                        {this.state.transactiontype=="Recurring" && (<div className="row" >
 
                             <div className="col-sm-12 col-md-12">
 
@@ -210,8 +212,8 @@ class TransactionComponent extends Component {
 
                             </div>
 
-                        </div>
-                        <div className="row" >
+                        </div>)}
+                        {this.state.transactiontype=="Recurring" && (<div className="row" >
 
                             <div className="col-sm-12 col-md-12">
 
@@ -223,14 +225,14 @@ class TransactionComponent extends Component {
 
                             </div>
 
-                        </div>
+                        </div>)}
 
-                        <div className="row" >
+                        {this.state.transactiontype=="Recurring" && (<div className="row" >
 
                             <div className="col-sm-12 col-md-12">
 
                                 <div className="form-group">
-                                    <label htmlFor="where"><h5>Frequency</h5></label>
+                                    <label htmlFor="where"><h6>Frequency</h6></label>
                                     <select id="frequency" className="form-control" name="frequency" value={this.state.frequency} onChange={this.handleChange}>
                                         <option value="">Select frequency</option>
                                         <option value="PerMonth">Per Month</option>
@@ -241,6 +243,7 @@ class TransactionComponent extends Component {
                             </div>
 
                         </div>
+                        )}
                         <div className="row" >
 
 
