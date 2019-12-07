@@ -65,7 +65,7 @@ router.post('/new', (req, res, next) => {
 		sender: req.body.sender,
         receiver: req.body.receiver,
         amount: req.body.amount,
-        type: req.body.type, //recurring or one time
+        type: req.body.transactiontype, //recurring or one time
         date: Date.now(),
 	    external: req.body.external,
         routingnumbersender: req.body.routingnumbersender,
