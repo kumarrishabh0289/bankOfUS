@@ -128,7 +128,7 @@ class TransactionComponent extends Component {
 
                                 <div className="form-group">
                                     <label htmlFor="where"><h6>Amount to be transferred</h6></label>
-                                    <input type="text" className="form-control" name="amount" id="amount" placeholder="Amount to be transferred" value={this.state.amount} onChange={this.handleChange} />
+                                    <input type="number" min="0" className="form-control" name="amount" id="amount" placeholder="Amount to be transferred" value={this.state.amount} onChange={this.handleChange} />
 
                                 </div>
 

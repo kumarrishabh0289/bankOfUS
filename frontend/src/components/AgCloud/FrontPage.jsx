@@ -61,7 +61,8 @@ class FrontPage extends Component {
                     this.setState({
 
                         signup_status: response.data.message,
-                        showSuccessMessage: true
+                        showSuccessMessage: true,
+                        hasFailed:false
                     })
                 } else {
                     console.log(response.data.error);

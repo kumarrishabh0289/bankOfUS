@@ -134,7 +134,7 @@ router.get('/check', (req, res, next) => {
 		console.log("From the database", doc);
 		if (doc) {
 		} else {
-			res.status(404).json({message: "Not a valid receiver ID"});
+			res.status(403).json({message: "Not a valid receiver ID"});
 			
 		}		
 	})
