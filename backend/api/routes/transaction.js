@@ -75,11 +75,9 @@ router.post('/new', (req, res, next) => {
 		})
 		.catch(err => {
 			console.log(err.errmsg)
-			res.status(202).json({error: err});
-			
+			res.status(202).json({error: err});			
         });
-        
-     
+             
 });
 
 
