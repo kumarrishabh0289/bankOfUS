@@ -27,7 +27,6 @@ router.get('/getall', (req, res, next) => {
 				error: err
 			})
 		})
-			
 });
 
 router.get('/', (req, res, next) => {
@@ -76,7 +75,6 @@ router.post('/new', (req, res, next) => {
 			console.log(err.errmsg)
 			res.status(202).json({error: err});			
         });
-             
 });
 
 

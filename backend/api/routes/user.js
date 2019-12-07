@@ -5,7 +5,6 @@ const User = require('../models/user');
 var jwt = require('jsonwebtoken');
 
 
-
 router.get('/', (req, res, next) => {
 	User.find()
 		.exec()
@@ -20,7 +19,6 @@ router.get('/', (req, res, next) => {
 			})
 		})
 });
-
 
 router.post('/register', (req, res, next) => {
 	console.log("request", req.body)
@@ -50,7 +48,6 @@ router.post('/register', (req, res, next) => {
 			res.status(202).json({error: err});
 			
 		});
-	
 	
 });
 
