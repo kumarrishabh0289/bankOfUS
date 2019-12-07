@@ -56,6 +56,7 @@ class WelcomeComponent extends Component {
                     user: this.state.user.concat(response.data)
                 });
             });
+
         
     }
 
@@ -109,6 +110,8 @@ class WelcomeComponent extends Component {
                                             this.state.user.map(user => {
                                                 var status_text = ""
                                                 var color = ""
+                                                sessionStorage.setItem("accountnumber", user.accountnumber)
+                                                sessionStorage.setItem("routingnumber", user.routingnumber)
                                                 return (
                                                     <>
                                                         <tr>
@@ -132,7 +135,7 @@ class WelcomeComponent extends Component {
 
                         </div>
                         <div>
-                        <Link to="/totaledgestation"><button class="btn btn-success">Available Edge Station</button></Link>
+                        <Link to="/transaction"><button class="btn btn-success">Transfer Money</button></Link>
                     </div>
                     </div>
              

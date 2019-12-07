@@ -70,7 +70,10 @@ router.post('/new', (req, res, next) => {
 	    external: req.body.external,
         routingnumbersender: req.body.routingnumbersender,
         routingnumbereceiver: req.body.routingnumbereceiver,
-        bankname: req.body.bankname
+		bankname: req.body.bankname,
+		startdate:req.body.startdate,
+		enddate:req.body.enddate,
+		frequency:req.body.frequency
 	});
 	user
 		.save()
@@ -123,6 +126,50 @@ router.patch("/refundfee", (req, res) => {
         })
         
 });
+
+
+router.get('/searchdebit', (req, res, next) => {
+    console.log("passed",req.query)
+    
+	const accountnumber = req.query.accountnumber;
+	Transaction.find({receiver: accountnumber})
+		.exec()
+		.then(doc => {
+			console.log("From database", doc);
+			if (doc) {
+                res.status(200).json(doc);
+			} else {
+				res.status(404).json({message: "not a valid accountnumber"});
+			}
+			
+		})
+		.catch(err => {
+			console.log(err);
+			res.status(500).json({error: err});
+		})
+});
+
+router.get('/searchcredit', (req, res, next) => {
+    console.log("passed",req.query)
+    
+	const accountnumber = req.query.accountnumber;
+	Transaction.find({sender: accountnumber})
+		.exec()
+		.then(doc => {
+			console.log("From database", doc);
+			if (doc) {
+                res.status(200).json(doc);
+			} else {
+				res.status(404).json({message: "not a valid accountnumber"});
+			}
+			
+		})
+		.catch(err => {
+			console.log(err);
+			res.status(500).json({error: err});
+		})
+});
+
 
 
 module.exports = router;

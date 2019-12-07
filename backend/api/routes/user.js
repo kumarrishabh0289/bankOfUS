@@ -89,4 +89,40 @@ router.put("/delete", (req, res, next) => {
 	
 })
 
+router.patch("/updatebalance", (req, res) => {
+    const accountnumber = req.body.accountnumber;// the amount to be refunded
+	let amount = req.body.amount;
+    User.findOne({accountnumber: accountnumber})
+        .exec()
+        .then(result => {
+			console.log( "Got Account",result.balance, amount );
+			console.log( typeof result.balance)
+			console.log( typeof amount)
+			console.log("update to", result.balance + amount )
+			User.update({accountnumber: accountnumber}, {
+                $set: {
+                    balance: result.balance + amount ,
+                }
+            })
+            .exec()
+            .then(result => {
+                console.log(result);
+                res.status(200).json({
+                    message: "Account balance was updated Successfully"
+                });
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({error:err});
+        })
+        
+});
+
 module.exports = router;
