@@ -79,16 +79,91 @@ router.post('/new', (req, res, next) => {
 		.save()
 		.then(result => {
 			console.log(result);
-			res.status(200).json({message: "transaction Created"});
+          	res.status(200).json({message: "transaction Created"});
+          
 		})
 		.catch(err => {
 			console.log(err.errmsg)
 			res.status(202).json({error: err});
 			
-		});
-	
-	
+        });
+        
+     
 });
+
+router.get("/updatesenderbalance", (req, res) => { 
+//now deduct money from sender
+User.findOne({accountnumber: req.query.sender})
+.exec()
+.then(result1 => {
+    console.log( "Got Account",result1.balance, req.query.amount );
+    console.log("update to", result1.balance + req.query.amount )
+    User.update({accountnumber: req.query.sender}, {
+        $set: {
+            balance: result1.balance - req.query.amount ,
+        }
+    })
+    .exec()
+    .then(result2 => {
+        console.log(result2);
+        res.status(200).json({
+            message: "ok"
+        });
+    })
+    .catch(err => {
+        console.log("-----------------------------------------------",req.query.sender)
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    })
+})
+.catch(err => {
+    console.log("-----------------------------------------------",req.query.sender)
+
+    console.log(err);
+    res.status(500).json({error:err});
+})
+//end
+
+});
+
+router.get("/updatereceiverbalance", (req, res) => { 
+    //now add money to receiver
+    User.findOne({accountnumber: req.query.receiver})
+    .exec()
+    .then(result1 => {
+        console.log( "Got Account",result1.balance, req.query.amount );
+        console.log("update to", result1.balance + req.query.amount )
+        User.update({accountnumber: req.query.receiver}, {
+            $set: {
+                balance: result1.balance + req.query.amount ,
+            }
+        })
+        .exec()
+        .then(result2 => {
+            console.log(result2);
+            res.status(200).json({
+                message: "ok"
+            });
+        })
+        .catch(err => {
+            console.log("-----------------------------------------------",req.query.receiver)
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        })
+    })
+    .catch(err => {
+        console.log("-----------------------------------------------",req.query.receiver)
+    
+        console.log(err);
+        res.status(500).json({error:err});
+    })
+    //end
+    
+    });
 
 
 router.patch("/refundfee", (req, res) => {
