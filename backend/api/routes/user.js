@@ -5,7 +5,6 @@ const User = require('../models/user');
 var jwt = require('jsonwebtoken');
 
 
-
 router.get('/', (req, res, next) => {
 	User.find()
 		.exec()
@@ -21,7 +20,6 @@ router.get('/', (req, res, next) => {
 		})
 });
 
-
 router.post('/register', (req, res, next) => {
 	console.log("request", req.body)
 	accno = Math.floor(Math.random() * 1000000000) + 1234567;
@@ -32,7 +30,7 @@ router.post('/register', (req, res, next) => {
 		name: req.body.name,
 		password: req.body.password,
 		accountnumber: accno,
-		balance: 0,
+		balance: 100,
 		routingnumber: routingnumber,
 		status: "Active",
 		mobile:req.body.mobile,
@@ -51,7 +49,6 @@ router.post('/register', (req, res, next) => {
 			
 		});
 	
-	
 });
 
 
@@ -64,7 +61,7 @@ router.get('/email', (req, res, next) => {
 			if (doc) {
 				res.status(200).json(doc);
 			} else {
-				res.status(404).json({message: "not a valid ID"});
+				res.status(404).json({message: "Not a valid ID"});
 			}
 			
 		})
@@ -134,10 +131,10 @@ router.get('/check', (req, res, next) => {
 	User.findOne({accountnumber: receiver})
 	.exec()
 	.then(doc => {
-		console.log("From database", doc);
+		console.log("From the database", doc);
 		if (doc) {
 		} else {
-			res.status(404).json({message: "not a valid receiver ID"});
+			res.status(404).json({message: "Not a valid receiver ID"});
 			
 		}		
 	})
@@ -160,7 +157,7 @@ router.get('/check', (req, res, next) => {
                     res.status(200).json({message: "Possible to transact" });
                 }
 			} else {
-				res.status(403).json({message: "not a valid sender ID"});
+				res.status(403).json({message: "Not a valid sender ID"});
 			}		
 		})
 		.catch(err => {

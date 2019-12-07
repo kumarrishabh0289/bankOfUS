@@ -3,7 +3,6 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Transaction = require('../models/transaction');
 const User = require('../models/user');
-var jwt = require('jsonwebtoken');
 
 
 router.get('/getall', (req, res, next) => {
@@ -18,7 +17,7 @@ router.get('/getall', (req, res, next) => {
 			if (docs) {
 				res.status(200).json(docs);
 			} else {
-				res.status(404).json({message: "not a valid accountnumber"});
+				res.status(404).json({message: "Not a valid accountnumber"});
 			}
 			
 		})
@@ -28,7 +27,6 @@ router.get('/getall', (req, res, next) => {
 				error: err
 			})
 		})
-			
 });
 
 router.get('/', (req, res, next) => {
@@ -53,8 +51,8 @@ router.post('/new', (req, res, next) => {
         _id: new mongoose.Types.ObjectId(),
         sendername: req.body.sendername,
         receivername: req.body.receivername,
-		sender: req.body.sender,
-        receiver: req.body.receiver,
+		sender: req.body.sender.trim(),
+        receiver: req.body.receiver.trim(),
         amount: req.body.amount,
         type: req.body.transactiontype, //recurring or one time
         date: Date.now(),
@@ -70,16 +68,13 @@ router.post('/new', (req, res, next) => {
 		.save()
 		.then(result => {
 			console.log(result);
-          	res.status(200).json({message: "transaction Created"});
+          	res.status(200).json({message: "Transaction Created"});
           
 		})
 		.catch(err => {
 			console.log(err.errmsg)
-			res.status(202).json({error: err});
-			
+			res.status(202).json({error: err});			
         });
-        
-     
 });
 
 
@@ -168,9 +163,14 @@ router.patch("/refundfee", (req, res) => {
             console.log( "Deleted transaction Successfully" );
         })
         .then( //now refund the amount
+
+            User.findOne({accountnumber: accountnumber})
+            .exec()
+            .then(doc1 => {
+                
             User.update({accountnumber: accountnumber}, {
                 $set: {
-                    balance: req.body.balance,
+                    balance: doc1.balance + req.body.balance,
                 }
             })
             .exec()
@@ -186,6 +186,8 @@ router.patch("/refundfee", (req, res) => {
                     error: err
                 });
             })
+            })
+
         )
         .catch(err => {
             console.log(err);
