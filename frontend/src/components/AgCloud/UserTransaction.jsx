@@ -179,7 +179,7 @@ class UserTransaction extends Component {
                                           
                                             let s = "DR"
                                        
-                                            if(this.state.accountnumber === user.sender){
+                                            if(sessionStorage.accountnumber === user.sender){
                                                 s = "CR"
                                             }
                                            
